@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { fetchCustomers } from '../customersapi';
 import { AgGridReact } from 'ag-grid-react';
 
+import NewCustomer from "../Components/Addcustomer";
+
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
@@ -30,8 +32,27 @@ function CustomerList(){
         .catch(err => console.error(err))
     }
 
+    const saveCustomer = (customer) => {
+        fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/customers", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(customer)
+        })
+        .then(response => {
+            if(!response.ok)
+                throw new Error("Error when adding new customer: " + response.statusText)
+
+            return response.json();
+        })
+        .then(() => handleCustomerFetch())
+        .catch(err => console.error(err))
+    }
+
     return(
         <>
+        <NewCustomer saveCustomer={saveCustomer}/>
         <div className='ag-theme-material' style={{height: 600}}>
         <AgGridReact
             rowData={customers}

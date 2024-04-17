@@ -6,12 +6,17 @@ import dayjs from 'dayjs';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
+const handleDate = (params) =>{
+    const formaattedDate = dayjs(params.value).format("DD.MM.YYYY / HH.mm")
+    return formaattedDate
+}
+
 
 function Trainingslist(){
     const[trainings, setTrainings] = useState([]);
     
     const[colDef] = useState([
-        {field:"date", filter: true,floatingFilter: true, valueFormatter: params => handleDate(params.valueFormatter)},
+        {field:"date", filter: true,floatingFilter: true, valueFormatter: handleDate},
         {field:"duration", filter: true,floatingFilter: true},
         {field:"activity", filter: true,floatingFilter: true},
         {field:"customer.firstname", filter: true,floatingFilter: true},
@@ -21,11 +26,6 @@ function Trainingslist(){
     useEffect(() =>{
         handleTrainingsfetch();
     }, [])
-
-    const handleDate = (date) =>{
-        const formaattedDate = dayjs(date).format("DD-MM-YYYY")
-        return formaattedDate
-}
 
 
     const handleTrainingsfetch = () =>{
