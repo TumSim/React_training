@@ -6,6 +6,7 @@ import NewCustomer from "../Components/Addcustomer";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import { Button } from '@mui/material';
 
 
 function CustomerList(){
@@ -18,12 +19,33 @@ function CustomerList(){
         {field:"postcode", filter: true,floatingFilter: true},
         {field:"city", filter: true,floatingFilter: true},
         {field:"email", filter: true,floatingFilter: true},
-        {field:"phone", filter: true,floatingFilter: true}
+        {field:"phone", filter: true,floatingFilter: true},
+        {
+            cellRenderer: params =>
+            <Button
+            size='small'
+            color='error'
+            onClick={() => deleteCustomer(params.data._links.customer.href)}>Delete
+            </Button>,
+            width: 150
+        }
     ])
 
     useEffect(() =>{
         handleCustomerFetch();
     }, [])
+
+    const deleteCustomer = (url) =>{
+        if (window.confirm("Are you sure?")) {
+            fetch(url, {method: "DELETE"})
+            .then(response => {
+                if (!response.ok)
+                    throw new Error("Error when deleting customer" + response.statusText)
+                return response.json();
+            })
+            .then(() => handleCustomerFetch())
+        }
+    }
 
 
     const handleCustomerFetch = () =>{
