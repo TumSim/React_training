@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
-import { fetchCustomers } from '../customersapi';
+import { fetchCustomers, saveCustomer, updateCustomer, deleteCustomer } from '../customersapi';
+import { newTraining } from '../trainingsapi';
 import { AgGridReact } from 'ag-grid-react';
 
 import NewCustomer from "../Components/Addcustomer";
+import Editcustomer from './Editcustomer';
+import AddNewTraining from './AddNewTraining';
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -13,6 +16,9 @@ function CustomerList(){
     const[customers, setCustomers] = useState([]);
     
     const[colDef] = useState([
+        {
+            cellRenderer: params => <AddNewTraining data = {params.data} setNewTraining={setNewTraining} />
+        },
         {field:"firstname", filter: true,floatingFilter: true},
         {field:"lastname", filter: true,floatingFilter: true},
         {field:"streetaddress", filter: true,floatingFilter: true},
@@ -21,13 +27,17 @@ function CustomerList(){
         {field:"email", filter: true,floatingFilter: true},
         {field:"phone", filter: true,floatingFilter: true},
         {
+            cellRenderer: params => <Editcustomer data={params.data} handleCustomerUpdate={handleCustomerUpdate} />,
+            width: 130
+        },
+        {
             cellRenderer: params =>
             <Button
             size='small'
             color='error'
-            onClick={() => deleteCustomer(params.data._links.customer.href)}>Delete
+            onClick={() => customerDelete(params.data._links.customer.href)}>Delete
             </Button>,
-            width: 150
+            width: 130
         }
     ])
 
@@ -35,18 +45,22 @@ function CustomerList(){
         handleCustomerFetch();
     }, [])
 
-    const deleteCustomer = (url) =>{
-        if (window.confirm("Are you sure?")) {
-            fetch(url, {method: "DELETE"})
-            .then(response => {
-                if (!response.ok)
-                    throw new Error("Error when deleting customer" + response.statusText)
-                return response.json();
-            })
-            .then(() => handleCustomerFetch())
-        }
+
+    const setNewTraining = (training) => {
+        newTraining(training)
+        .catch(err => console.error(err))
     }
 
+    const customerDelete = (url) => {
+        deleteCustomer(url)
+        .then(() => handleCustomerFetch())
+    }
+
+    const handleCustomerUpdate = (url, updatedCustomer) =>{
+        updateCustomer(url, updatedCustomer)
+        .then(() => handleCustomerFetch())
+        .catch(err => console.error(err))
+    }
 
     const handleCustomerFetch = () =>{
         fetchCustomers()
@@ -54,27 +68,16 @@ function CustomerList(){
         .catch(err => console.error(err))
     }
 
-    const saveCustomer = (customer) => {
-        fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/customers", {
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify(customer)
-        })
-        .then(response => {
-            if(!response.ok)
-                throw new Error("Error when adding new customer: " + response.statusText)
 
-            return response.json();
-        })
+    const handleCustomerSave = (customer) =>{
+        saveCustomer(customer)
         .then(() => handleCustomerFetch())
         .catch(err => console.error(err))
     }
 
     return(
         <>
-        <NewCustomer saveCustomer={saveCustomer}/>
+        <NewCustomer handleCustomerSave={handleCustomerSave}/>
         <div className='ag-theme-material' style={{height: 600}}>
         <AgGridReact
             rowData={customers}

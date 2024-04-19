@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-function NewCustomer({saveCustomer}) {
+function NewCustomer({handleCustomerSave}) {
   const [open, setOpen] = React.useState(false);
 
   const[customer, setCustomer] = React.useState({
@@ -32,7 +32,7 @@ function NewCustomer({saveCustomer}) {
   }
 
   const handleSave = () =>{
-    saveCustomer(customer);
+    handleCustomerSave(customer);
     handleClose();
   }
 
@@ -66,7 +66,7 @@ function NewCustomer({saveCustomer}) {
             name="firstname"
             value={customer.firstname}
             onChange={e => handleInput(e)}
-            label="First name"
+            label="Firstname"
             fullWidth
           />
             <TextField
@@ -74,7 +74,7 @@ function NewCustomer({saveCustomer}) {
             name="lastname"
             value={customer.lastname}
             onChange={e => handleInput(e)}
-            label="Last name"
+            label="Lastname"
             fullWidth
           />
             <TextField
