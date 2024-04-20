@@ -4,6 +4,7 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import CustomerList from './Components/Customerlist.jsx'
 import Trainingslist from './Components/Trainingslist.jsx'
+import BigCalendar from './Components/Bigcalendar.jsx'
 import Error from './Components/Error.jsx'
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "customers",
         element: <CustomerList />
+      },
+      {
+        path: "calendar",
+        element: <BigCalendar />
       }
     ]
   }
