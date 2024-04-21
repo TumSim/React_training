@@ -17,14 +17,17 @@
     "@mui/x-date-pickers": "^7.2.0",
     "ag-grid-community": "^31.2.1",
     "ag-grid-react": "^31.2.1",
+    "axios": "^1.6.8",
     "dayjs": "^1.11.10",
+    "file-saver": "^2.0.5",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
     "react-big-calendar": "^1.11.6",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
-    "sort-by": "^0.0.2"
+    "sort-by": "^0.0.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
