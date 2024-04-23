@@ -41,7 +41,7 @@ function NavigationDrawerbar() {
                     <Typography variant="h6" noWrap>
                         {pageLocation.pathname === "/customers" ? "Customers" :
                          pageLocation.pathname === "/trainings" ? "Trainings" :
-                         pageLocation.pathname === "/calendar" ? "Calendar" : "Unknown Page"}
+                         pageLocation.pathname === "/calendar" ? "Calendar" : "Customers"}
                     </Typography>
                 </Toolbar>
             </AppBar>

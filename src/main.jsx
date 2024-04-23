@@ -1,41 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import App from './App.jsx'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import CustomerList from './Components/Customerlist.jsx'
-import Trainingslist from './Components/Trainingslist.jsx'
 import BigCalendar from './Components/Bigcalendar.jsx'
+import CustomerList from './Components/Customerlist.jsx'
 import Error from './Components/Error.jsx'
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element:<App />,
-    errorElement: <Error />,
-    children:[
-      {
-        element: <CustomerList />,
-        index: true
-      },
-      {
-        path: "trainings",
-        element: <Trainingslist />
-      },
-      {
-        path: "customers",
-        element: <CustomerList />
-      },
-      {
-        path: "calendar",
-        element: <BigCalendar />
-      }
-    ]
-  }
-]);
-
+import Trainingslist from './Components/Trainingslist.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<CustomerList />} />
+          <Route path="trainings" element={<Trainingslist />} />
+          <Route path="customers" element={<CustomerList />} />
+          <Route path="calendar" element={<BigCalendar />} />
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
+    </HashRouter>
+  </React.StrictMode>
 );
