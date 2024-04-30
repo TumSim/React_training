@@ -41,7 +41,8 @@ function NavigationDrawerbar() {
                     <Typography variant="h6" noWrap>
                         {pageLocation.pathname === "/customers" ? "Customers" :
                          pageLocation.pathname === "/trainings" ? "Trainings" :
-                         pageLocation.pathname === "/calendar" ? "Calendar" : "Customers"}
+                         pageLocation.pathname === "/calendar" ? "Calendar" :
+                         pageLocation.pathname === "/stats" ? "Statistics" : "Customers"}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -66,6 +67,9 @@ function NavigationDrawerbar() {
                     </ListItemButton>
                     <ListItemButton component={Link} to="/calendar" onClick={handleDrawerClose}>
                         <ListItemText primary="Calendar" />
+                    </ListItemButton>
+                    <ListItemButton component={Link} to="/stats" onClick={handleDrawerClose}>
+                        <ListItemText primary="Statistics" />
                     </ListItemButton>
                 </List>
             </Drawer>
